@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/RainbowSealiving.iml" filepath="$PROJECT_DIR$/.idea/RainbowSealiving.iml" />
+      <module fileurl="file://$PROJECT_DIR$/RainbowSealiving-commodity/RainbowSealiving-commodity.iml" filepath="$PROJECT_DIR$/RainbowSealiving-commodity/RainbowSealiving-commodity.iml" />
+      <module fileurl="file://$PROJECT_DIR$/RainbowSealiving-common/RainbowSealiving-common.iml" filepath="$PROJECT_DIR$/RainbowSealiving-common/RainbowSealiving-common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/renren-fast/renren-fast.iml" filepath="$PROJECT_DIR$/renren-fast/renren-fast.iml" />
+      <module fileurl="file://$PROJECT_DIR$/renren-generator/renren-generator.iml" filepath="$PROJECT_DIR$/renren-generator/renren-generator.iml" />
+    </modules>
+  </component>
+</project>
