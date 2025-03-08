@@ -1,6 +1,7 @@
 package com.rainbowsea.rainbowsealiving.commodity.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.rainbowsea.rainbowsealiving.commodity.entity.CategoryEntity;
 import com.rainbowsea.rainbowsealiving.commodity.service.CategoryService;
 
+import javax.annotation.Resource;
+
 
 /**
  * 商品分类表
@@ -27,6 +30,9 @@ import com.rainbowsea.rainbowsealiving.commodity.service.CategoryService;
 @RestController
 @RequestMapping("commodity/category")
 public class CategoryController {
+
+
+
     @Autowired
     private CategoryService categoryService;
 
@@ -39,6 +45,16 @@ public class CategoryController {
         PageUtils page = categoryService.queryPage(params);
 
         return R.ok().put("page", page);
+    }
+
+    /**
+     * 列表
+     */
+    @RequestMapping("/list/tree")
+    //@RequiresPermissions("commodity:category:list")
+    public R listTree() {
+        List<CategoryEntity> entities = categoryService.listTree();
+        return R.ok().put("data", entities);
     }
 
 
