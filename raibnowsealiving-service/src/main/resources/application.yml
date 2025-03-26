@@ -4,8 +4,8 @@
 #spring:
 #  cloud:
 #    alicloud:
-#      access-key: LTAI5tP4G6hDJqh7FPe1Cahh
-#      secret-key: vl5kaBORH1QADEzKq9NInpRdD8JJeF
+#      access-key22: LTAI5tP4G6hDJqh7FPe1Cahh
+#      secret-key22: vl5kaBORH1QADEzKq9NInpRdD8JJeF
 #      oss:
 #        endpoint: oss-cn-hangzhou.aliyuncs.com # 杭州位置
 #        bucket: rainbowsealiving-10000
