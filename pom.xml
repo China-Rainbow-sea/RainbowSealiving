@@ -24,6 +24,8 @@
         <module>renren-fast</module>
         <module>renren-generator</module>
         <module>RainbowSealiving-common</module>
+        <module>raibnowsealiving-service</module>
+        <module>rainbowsealiving-gateway</module>
     </modules>
 
     <properties>

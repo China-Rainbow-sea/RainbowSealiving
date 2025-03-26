@@ -15,6 +15,14 @@
     <!--    引入相关依赖-->
     <dependencies>
 
+        <!-- 引入自定义校验注解 jar -->
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+            <version>2.0.1.Final</version>
+        </dependency>
+
+
         <!--引入mysql驱动-->
         <dependency>
             <groupId>mysql</groupId>
@@ -49,6 +57,36 @@
             <artifactId>commons-lang</artifactId>
             <version>2.6</version>
         </dependency>
+
+
+        <!--
+          解读
+         1. 引入 nacos 服务注册/ 发现
+         2. 以后，引入了 hspliving-common 的微服务模块就有了 nacos服务注册/发现依赖,不需要在引入 -->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+        </dependency>
     </dependencies>
+
+    <!--
+        解读
+        1. dependencyManagement是包依赖管理
+        2.该微服务模块的 pom.xml
+        的<dependencies></dependencies>引入 spring cloud alibaba
+        相关依赖的时候，就不需要指定版本了
+        3. 注意：这里仅仅只是声明了，并没有进入实际上的 依赖。
+        -->
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+                <version>2.1.0.RELEASE</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
 </project>

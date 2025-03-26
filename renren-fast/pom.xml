@@ -51,6 +51,21 @@
     </properties>
 
     <dependencies>
+        <!--引入 hspliving-common,该依赖包含的有 nacos注册发现
+           同时排除 mybaits-puls 的依赖,因为这里用不上 -->
+        <dependency>
+            <groupId>com.rainbowsea.RainbowSealiving</groupId>
+            <artifactId>RainbowSealiving-common</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.baomidou</groupId>
+                    <artifactId>mybatis-plus-boot-starter</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+<!--         使用 nacos注册发现，需要 gson,加入即可,如果已经引入过, 就不需要再引入 -->
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>

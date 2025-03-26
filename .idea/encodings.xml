@@ -3,6 +3,8 @@
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/RainbowSealiving-commodity/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/RainbowSealiving-common/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/raibnowsealiving-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/rainbowsealiving-gateway/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/renren-fast/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/renren-generator/src/main/java" charset="UTF-8" />
   </component>

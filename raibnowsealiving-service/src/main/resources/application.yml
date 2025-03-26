@@ -1,0 +1,17 @@
+#server:
+#  port: 7072
+## 配置 oss
+#spring:
+#  cloud:
+#    alicloud:
+#      access-key: LTAI5tP4G6hDJqh7FPe1Cahh
+#      secret-key: vl5kaBORH1QADEzKq9NInpRdD8JJeF
+#      oss:
+#        endpoint: oss-cn-hangzhou.aliyuncs.com # 杭州位置
+#        bucket: rainbowsealiving-10000
+#    # 将 rainbowsealiving-service 注册到  nacos 当中去。
+#    nacos:
+#      discovery:
+#        server-addr: 127.0.0.1:8848
+#  application:
+#    name: rainbowsealiving-service

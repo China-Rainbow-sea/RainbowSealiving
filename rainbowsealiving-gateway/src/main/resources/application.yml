@@ -1,0 +1,61 @@
+server:
+  port: 5050 #gateway监听端口
+spring:
+  cloud:
+    #配置网关
+    #http://localhost:5050/api/commodity/brand/list
+    #http://www.hspliving.com/api/commodity/brand/list
+    gateway:
+      routes: #配置路由,可以有多个路由
+#        - id: member_routh01 # 路由id, 由程序员指定,保证唯一
+#          # 当前配置完成的需求说明：
+#          # 如果到网关的请求时 http://localhost:5050/commodity/brand/list ,gateway 通过断言。
+#          # 最终将请求路由转发到 http://localhost:9090/commodity/brand/list = >url=uri+path
+#          uri: http://localhost:9090
+#          predicates:
+#            - Path=/commodity/brand/list #断言,路径相匹配的进行路由
+        - id: raibnowsealiving_service_route # 路由id, 由程序员指定,保证唯一
+            # 当前配置完成的需求说明：
+            # 如果到网关的请求时 http://localhost:5050/api/service/???/??? ,gateway 通过断言。
+            # 最终将请求路由转发到 http://rainbowSealiving-service [注册到 nacosd  renren-fast 服务ip+端口]/????? = >url=uri+path
+            # 因为我们要去掉断言到 Path的/api ，所以这里我们需要使用上路径重写。
+          uri: lb://rainbowsealiving-service
+          predicates:
+            - Path=/api/service/** #断言,路径相匹配的进行路由
+          filters:
+            # 也就是通过路径重写，最终的url 就是 http://localhost:7070
+            - RewritePath=/api/service/(?<segment>.*), /$\{segment}
+        - id: rainbowSealiving_commodity_route # 路由id, 由程序员指定,保证唯一
+            # 当前配置完成的需求说明：
+            # 如果到网关的请求时 http://localhost:5050/api/commodity/list/tree ,gateway 通过断言。
+            # 最终将请求路由转发到 http://rainbowSealiving-commodity [注册到 nacosd  renren-fast 服务ip+端口]/????? = >url=uri+path
+            # 因为我们要去掉断言到 Path的/api ，所以这里我们需要使用上路径重写。
+            # 说明: /api/commodity/是一个更加精确的路径，必须将这组路由放在 /api/这里上
+            # 否则会报错
+          uri: lb://rainbowSealiving-commodity
+          predicates:
+            - Path=/api/commodity/** #断言,路径相匹配的进行路由
+          filters:
+            # 也就是通过路径重写，最终的url 就是 http://localhost:9090
+            - RewritePath=/api/(?<segment>.*), /$\{segment}
+        - id: rainbowsealiving_renren_fast_route # 路由id, 由程序员指定,保证唯一
+            # 当前配置完成的需求说明：
+            # 如果到网关的请求时 http://localhost:5050/api/???/??? ,gateway 通过断言。
+            # 最终将请求路由转发到 http://renren-fast [注册到 nacosd  renren-fast 服务ip+端口]/????? = >url=uri+path
+            # 因为我们要去掉断言到 Path的/api ，所以这里我们需要使用上路径重写。
+          uri: lb://renren-fast
+          predicates:
+            - Path=/api/** #断言,路径相匹配的进行路由
+          filters:
+            # 也就是通过路径重写，最终的url 就是 http://localhost:8090
+            - RewritePath=/api/(?<segment>.*), /renren-fast/$\{segment}
+        # for nginx 增加一组路由
+        - id: hspliving_host_route
+          uri: lb://rainbowSealiving-commodity
+          predicates:
+            - Host=**.rainbowsealiving.com
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848 #配置nacos地址
+  application:
+    name: rainbowsealiving-gateway

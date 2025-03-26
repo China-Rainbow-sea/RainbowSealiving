@@ -2,8 +2,11 @@ package com.rainbowsea.rainbowsealiving.commodity.service.impl;
 
 import com.rainbowsea.common.utils.PageUtils;
 import com.rainbowsea.common.utils.Query;
+import com.rainbowsea.rainbowsealiving.commodity.vo.Catalog2Vo;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -20,6 +23,66 @@ import com.rainbowsea.rainbowsealiving.commodity.service.CategoryService;
 
 @Service("categoryService")
 public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity> implements CategoryService {
+
+    private List<CategoryEntity> getParent_cid(List<CategoryEntity> selectList, Long parentCid) {
+        List<CategoryEntity> categoryEntities = selectList.stream().filter(item ->
+                item.getParentId().equals(parentCid)).collect(Collectors.toList());
+        return categoryEntities;
+
+        // return this.baseMapper.selectList(
+// new QueryWrapper<CategoryEntity>().eq("parent_cid", parentCid));
+    }
+
+
+    @Override
+    public Map<String, List<Catalog2Vo>> getCatalogJson() {
+//将数据库的多次查询变为一次
+        List<CategoryEntity> selectList = this.baseMapper.selectList(null);
+//1、查出所有分类
+//1、1）查出所有一级分类
+        List<CategoryEntity> level1Categorys = getParent_cid(selectList, 0L);
+//封装数据
+        Map<String, List<Catalog2Vo>> parentCid =
+                level1Categorys.stream().collect(Collectors.toMap(k -> k.getId().toString(), v ->
+                {
+//1、每一个的一级分类,查到这个一级分类的二级分类
+                    List<CategoryEntity> categoryEntities = getParent_cid(selectList, v.getId());
+//2、封装上面的结果
+                    List<Catalog2Vo> catalog2Vos = null;
+                    if (categoryEntities != null) {
+                        catalog2Vos = categoryEntities.stream().map(l2 -> {
+                            Catalog2Vo catalog2Vo =
+                                    new Catalog2Vo(v.getId().toString(), null, l2.getId().toString(),
+                                            l2.getName().toString());
+//1、找当前二级分类的三级分类封装成 vo
+                            List<CategoryEntity> level3Catelog = getParent_cid(selectList,
+                                    l2.getId());
+                            if (level3Catelog != null) {
+                                List<Catalog2Vo.Category3Vo> category3Vos =
+                                        level3Catelog.stream().map(l3 -> {
+//2、封装成指定格式
+                                            Catalog2Vo.Category3Vo category3Vo =
+                                                    new Catalog2Vo.Category3Vo(l2.getId().toString(),
+                                                            l3.getId().toString(), l3.getName());
+                                            return category3Vo;
+                                        }).collect(Collectors.toList());
+                                catalog2Vo.setCatalog3List(category3Vos);
+                            }
+                            return catalog2Vo;
+                        }).collect(Collectors.toList());
+                    }
+                    return catalog2Vos;
+                }));
+        return parentCid;
+    }
+
+
+    @Override
+    public List<CategoryEntity> getLevel1Categorys() {
+        List<CategoryEntity> categoryEntities = this.baseMapper.selectList(
+                new QueryWrapper<CategoryEntity>().eq("parent_id", 0));
+        return categoryEntities;
+    }
 
 
     /**
@@ -52,7 +115,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
                     return categoryEntity.getParentId() == 0; // 0 就是一级分类
                 }).map(category -> {
                     // 2.2 进行map映射操作，给每个分类设置对应的子分类(这个过程会使用到递归)
-                    category.setChildrenCategories(getChildrenCategories(category,entities));
+                    category.setChildrenCategories(getChildrenCategories(category, entities));
                     return category;
                 }).sorted((category1, category2) -> {
                     // 2.3 进行排序sorted 操作，按照 sort 的升序排列
@@ -101,6 +164,38 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
         );
 
         return new PageUtils(page);
+    }
+
+
+    /**
+     * 找到 categoryId 的所有父类 id, *返回 cascadedCategoryId(是一个数组)的[第 1 级分类 id, 第 2 级分类 id, 第 3 级分类 id]
+     */
+    @Override
+    public Long[] getCascadedCategoryId(Long categoryId) {
+
+        List<Long> cascadedCategoryId = new ArrayList<>();
+        getParentCategoryId(categoryId, cascadedCategoryId);
+        // 将顺序翻转
+        Collections.reverse(cascadedCategoryId);
+        return cascadedCategoryId.toArray(new Long[cascadedCategoryId.size()]);
+    }
+
+    /**
+     * 该方法递归的找到 categoryId 的所有父分类 id , 并存放到 categories
+     * 注意得到的所有分类 id 是一个逆序的
+     *
+     * @param categoryId
+     * @param categories
+     * @return
+     */
+    private List<Long> getParentCategoryId(Long categoryId, List<Long> categories) {
+//1、将当前分类 id 放入 categories 数组
+        categories.add(categoryId);
+        CategoryEntity categoryEntity = this.getById(categoryId);
+        if (categoryEntity.getParentId() != 0) {
+            getParentCategoryId(categoryEntity.getParentId(), categories);
+        }
+        return categories;
     }
 
 }

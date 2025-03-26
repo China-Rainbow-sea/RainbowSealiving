@@ -5,6 +5,24 @@ spring:
     url: jdbc:mysql://192.168.56.100:3306/hspliving_commodity?useUnicode=true&characterEncoding=utf-8&useSSL=false
     driver-class-name: com.mysql.cj.jdbc.Driver
 #    driver-class-name: com.mysql.jdbc.Driver
+# 配置 阿里云 oss
+  cloud:
+    alicloud:
+      oss:
+        endpoint: oss-cn-hangzhou.aliyuncs.com # 杭州位置
+      access-key: LTAI5tP4G6hDJqh7FPe1Cahh
+      secret-key: vl5kaBORH1QADEzKq9NInpRdD8JJeF
+#  将  RainbowSealiving-commodity 模块配置注册到 nacos 上
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848 #  Nacos 服务的地址
+  application:
+    name: rainbowSealiving-commodity # 该微服务的 name 信息
+  # 注意: thymeleaf 是在 spring.cloud 对齐,同一层级下的
+  # 1. 关闭 thymeleaf 的缓存，这样当前前端页面变化时，就会看到效果
+  # 2. 当在生产环境时，需要将 cache 设置为 true ，表示开启 thymeleaf 的缓存机制，提高效率
+  thymeleaf:
+    cache: false
 
 # 配置 mybatis-pus
 mybatis-plus:

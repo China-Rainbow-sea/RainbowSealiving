@@ -5,6 +5,8 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/RainbowSealiving.iml" filepath="$PROJECT_DIR$/.idea/RainbowSealiving.iml" />
       <module fileurl="file://$PROJECT_DIR$/RainbowSealiving-commodity/RainbowSealiving-commodity.iml" filepath="$PROJECT_DIR$/RainbowSealiving-commodity/RainbowSealiving-commodity.iml" />
       <module fileurl="file://$PROJECT_DIR$/RainbowSealiving-common/RainbowSealiving-common.iml" filepath="$PROJECT_DIR$/RainbowSealiving-common/RainbowSealiving-common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/raibnowsealiving-service/raibnowsealiving-service.iml" filepath="$PROJECT_DIR$/raibnowsealiving-service/raibnowsealiving-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/rainbowsealiving-gateway/rainbowsealiving-gateway.iml" filepath="$PROJECT_DIR$/rainbowsealiving-gateway/rainbowsealiving-gateway.iml" />
       <module fileurl="file://$PROJECT_DIR$/renren-fast/renren-fast.iml" filepath="$PROJECT_DIR$/renren-fast/renren-fast.iml" />
       <module fileurl="file://$PROJECT_DIR$/renren-generator/renren-generator.iml" filepath="$PROJECT_DIR$/renren-generator/renren-generator.iml" />
     </modules>
