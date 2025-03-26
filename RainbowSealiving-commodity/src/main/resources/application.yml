@@ -9,9 +9,9 @@ spring:
   cloud:
     alicloud:
       oss:
-        endpoint: oss-cn-hangzhou.aliyuncs.com # 杭州位置
-      access-key: LTAI5tP4G6hDJqh7FPe1Cahh
-      secret-key: vl5kaBORH1QADEzKq9NInpRdD8JJeF
+#        endpoint: oss-cn-hangzhou.aliyuncs.com # 杭州位置
+#      access-key: LTAI5tP4G6hDJqh7FPe1Cahh
+#      secret-key: vl5kaBORH1QADEzKq9NInpRdD8JJeF
 #  将  RainbowSealiving-commodity 模块配置注册到 nacos 上
     nacos:
       discovery:
